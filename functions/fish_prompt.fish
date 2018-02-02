@@ -10,7 +10,7 @@ function fish_prompt
 
   set -l exit_status $cred$status$cnormal
   set -l pwd $cgreen(prompt_pwd)$cnormal
-  set -l hostname $cyellow$__fish_prompt_hostname$cnormal
+  set -l user_host $cyellow$USER@$__fish_prompt_hostname$cnormal
   set -l OS (uname)
   set -l git_output
 
@@ -66,6 +66,6 @@ function fish_prompt
   #   set ve (printf "(%s)" (basename $VIRTUAL_ENV))
   # end
 
-  echo -n -s \n "$exit_status $hostname:$pwd $git_output"
+  echo -n -s \n "$exit_status $user_host:$pwd $git_output"
   printf "\n%s " "$__fish_prompt_char"
 end
