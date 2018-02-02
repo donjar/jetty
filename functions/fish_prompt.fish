@@ -20,51 +20,13 @@ function fish_prompt
     alias ls "ls -G"
   end
 
-  if type -q git
-    set normal (set_color normal)
-    set dirty (set_color black -b F38630)
-    set clean (set_color black -b 7AB317)
-    set detached (set_color black -b FF0000)
-    if set branch_name (git_branch_name)
-      set -l gitporcelain (git_porcelain)
-      set -l git_distance (git_distance)
-      if test ! -z "$git_distance"
-        set git_distance "($git_distance)"
-      end
-      set -l repo_status
-      set -l branch_color ""
-
-      if git_is_dirty
-        set branch_color "$dirty"
-      else
-        set branch_color "$clean"
-      end
-
-
-      if git_is_staged
-        if git_is_dirty
-          set git_status "± "
-        else
-          set git_status "+ "
-        end
-      end
-
-      if git_is_empty
-        set repo_status "●"
-      end
-
-      if git_is_stashed
-        set repo_status ".."
-      end
-
-      set git_output "$branch_color $branch_name$repo_status$git_distance $normal $gitporcelain"
-    end
-  end
-
   # set -l ve ""
   # if set -q VIRTUAL_ENV
   #   set ve (printf "(%s)" (basename $VIRTUAL_ENV))
   # end
 
-  printf "$exit_status $user_host:$pwd $git_output\n$__fish_prompt_char "
+  set -l duration $cblue(echo $CMD_DURATION | humanize_duration)$cnormal
+  set right_prompt $right_prompt "$duration "
+
+  printf "$exit_status $user_host:$pwd $duration\n$__fish_prompt_char "
 end
