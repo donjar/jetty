@@ -1,11 +1,18 @@
 function fish_prompt
-  set -l cblue (set_color 69D2E7)
+  set -l cred (set_color red)
+  set -l cblue (set_color blue)
+  set -l cyellow (set_color yellow)
+  set -l cgreen (set_color green)
   set -l cnormal (set_color normal)
-  set -l pwd $cblue(prompt_pwd)$cnormal
+
+  set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
+  set -g __fish_prompt_char "\$"
+
+  set -l exit_status $cred$status$cnormal
+  set -l pwd $cgreen(prompt_pwd)$cnormal
+  set -l hostname $cyellow$__fish_prompt_hostname$cnormal
   set -l OS (uname)
   set -l git_output
-  set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
-  set -g __fish_prompt_char "❯"
 
   if test $OS = "Linux"
     alias ls "ls --color=auto"
@@ -32,8 +39,8 @@ function fish_prompt
       else
         set branch_color "$clean"
       end
-      
-      
+
+
       if git_is_staged
         if git_is_dirty
           set git_status "± "
@@ -45,7 +52,7 @@ function fish_prompt
       if git_is_empty
         set repo_status "●"
       end
-      
+
       if git_is_stashed
         set repo_status ".."
       end
@@ -54,13 +61,11 @@ function fish_prompt
     end
   end
 
-  set -l ve ""
-  if set -q VIRTUAL_ENV
-    set ve (printf "(%s)" (basename $VIRTUAL_ENV))
-end
+  # set -l ve ""
+  # if set -q VIRTUAL_ENV
+  #   set ve (printf "(%s)" (basename $VIRTUAL_ENV))
+  # end
 
-  echo -n -s \n\
-  "$ve $pwd "\
-  "$git_output"
+  echo -n -s \n "$exit_status $hostname:$pwd $git_output"
   printf "\n%s " "$__fish_prompt_char"
 end
