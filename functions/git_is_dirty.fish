@@ -1,0 +1,1 @@
+fish-git-util/git_is_dirty.fish
