@@ -1,1 +1,0 @@
-fish-git-util/git_is_repo.fish
