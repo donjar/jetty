@@ -1,3 +1,0 @@
-[submodule "functions/fish-git-util"]
-	path = functions/fish-git-util
-	url = https://github.com/fishpkg/fish-git-util
